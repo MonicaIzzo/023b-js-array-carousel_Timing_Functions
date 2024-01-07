@@ -51,7 +51,10 @@ Buon lavoro e buon ponte!
 /*---------------------------------------
         FUNZIONI
 ---------------------------------------*/
+// # funzione per impostre il [currentIndex]
+function setCurrentIndex (){
 
+}
 
 /*---------------------------------------
         OPERAZIONI PRELIMINARI
@@ -73,7 +76,7 @@ const sources = ['img/01.webp', 'img/02.webp', 'img/03.webp', 'img/04.webp', 'im
   let imagesElements = '';
 
   for(let i = 0; i < sources.length; i++){
-  imagesElements += `<img src="${sources[i]}" alt="Comics ${sources[i]}">`
+  imagesElements += `<img src="${sources[i]}" alt="Comics ${sources[i]}" data-index="${i}">`
 }
 
 // # Inserisco le immagini nel DOM
@@ -139,16 +142,25 @@ prevBtn.addEventListener('click', function(){
   thumbnails[currentIndex].classList.add('active');
   });
 
-  // Rendiamo i thumbnail cliccabili
+  // # Rendiamo i thumbnail cliccabili
+
+  // # Per ogniugno dei thumbnails....
   for (let i = 0; i < thumbnails.length; i++) {
-  thumbnails[i].addEventListener('click', function(){
+
+    const currentThumbnail = thumbnails[i];
+
+  // ... e metto in ascolto un event listener 
+    currentThumbnail.addEventListener('click', function(){
+
+  // Rimuovo la classe [active] dall'immagine corrispondente al currentIndex  
     images[currentIndex].classList.remove('active')
     thumbnails[currentIndex].classList.remove('active')
 
     // Setto il currentIndex all'indice dell'immagine corrispondente
-    currentIndex = i;
+    currentIndex = currentThumbnail.dataset.index;
     console.log('il CurrentIndex corrente è ' + currentIndex);
 
+  // Aggiungo la classe [active] dall'immagine corrispondente al currentIndex      
     images[currentIndex].classList.add('active');
     thumbnails[currentIndex].classList.add('active');
 

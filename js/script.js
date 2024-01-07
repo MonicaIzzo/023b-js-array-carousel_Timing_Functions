@@ -52,8 +52,17 @@ Buon lavoro e buon ponte!
         FUNZIONI
 ---------------------------------------*/
 // # funzione per impostre il [currentIndex]
-function setCurrentIndex (){
+function setCurrentIndex (index){
+    // Rimuovo la classe [active] dall'immagine corrispondente al currentIndex  
+    images[currentIndex].classList.remove('active')
+    thumbnails[currentIndex].classList.remove('active')
 
+      currentIndex = index;
+      console.log('il CurrentIndex corrente è ' + currentIndex);
+
+    // Aggiungo la classe [active] dall'immagine corrispondente al currentIndex      
+    images[currentIndex].classList.add('active');
+    thumbnails[currentIndex].classList.add('active');
 }
 
 /*---------------------------------------
@@ -99,51 +108,21 @@ thumbnails[currentIndex].classList.add('active');
 ---------------------------------------*/
 
 // # btn AVANTI -------------------------
-
 nextBtn.addEventListener('click', function() {
-
-  // Rimuovo la classe active [class='active'] dall'immagine corrispondente al [currentIndex]
-  images[currentIndex].classList.remove('active');
-  thumbnails[currentIndex].classList.remove('active');
-
-  // Incremento il [currentIndex]
-  currentIndex++;
-  console.log('il CurrentIndex corrente è ' + currentIndex);
-
-
-  //! Controllo se il currentIndex è uguale alla [images.lenght] nel caso di controllo positivo setto il currentIndex a 0 per far partire il carosello alla prima immagine.
-  if (currentIndex === sources.length) currentIndex = 0;
-
-
-  // Aggiungo la classe active [class='active'] all'immagine corrispondente al mio [currentIndex] 
-  images[currentIndex].classList.add('active');
-  thumbnails[currentIndex].classList.add('active');
+  const nextIndex = currentIndex + 1;
+  const index = nextIndex === sources.length ? 0 : nextIndex;
+  setCurrentIndex(index);
 });
 
 
 //  # btn INDIETRO -------------------------
-
 prevBtn.addEventListener('click', function(){
-
-  // Aggiungo la classe active [class='active'] all'immagine corrispondente al mio [currentIndex] 
-  images[currentIndex].classList.remove('active');
-  thumbnails[currentIndex].classList.remove('active');
-
-  // Decremento il [currentIndex]
-  currentIndex--;
-
-  //! Controllo se il currentIndex è 0 nel caso setto il currentIndex a images.lenght -1 per far partire il carosello all'ultima immagine
-  if (currentIndex < 0) currentIndex = sources.length - 1 ;
-
-      console.log('il CurrentIndex dopo if  ' + currentIndex);
-
-  // Aggiungo la classe active [class='active'] all'immagine corrispondente al mio [currentIndex] 
-  images[currentIndex].classList.add('active');
-  thumbnails[currentIndex].classList.add('active');
+  const prevIndex = currentIndex - 1;
+  const index = prevIndex < 0 ? sources.length - 1 : prevIndex; 
+  setCurrentIndex(index);
   });
 
-  // # Rendiamo i thumbnail cliccabili
-
+  // # RENDIAMO I THUMBNAIL CLICCABILI
   // # Per ogniugno dei thumbnails....
   for (let i = 0; i < thumbnails.length; i++) {
 
@@ -151,23 +130,10 @@ prevBtn.addEventListener('click', function(){
 
   // ... e metto in ascolto un event listener 
     currentThumbnail.addEventListener('click', function(){
-
-  // Rimuovo la classe [active] dall'immagine corrispondente al currentIndex  
-    images[currentIndex].classList.remove('active')
-    thumbnails[currentIndex].classList.remove('active')
-
-    // Setto il currentIndex all'indice dell'immagine corrispondente
-    currentIndex = currentThumbnail.dataset.index;
-    console.log('il CurrentIndex corrente è ' + currentIndex);
-
-  // Aggiungo la classe [active] dall'immagine corrispondente al currentIndex      
-    images[currentIndex].classList.add('active');
-    thumbnails[currentIndex].classList.add('active');
-
+      const index = parseInt(currentThumbnail.dataset.index);
+      setCurrentIndex(index);
   });
 }
-
-
 
 /*---------------------------------------
         Versione co DOM API

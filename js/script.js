@@ -31,27 +31,10 @@ Buon lavoro e buon ponte!
 <br>
 <br>
 
-**0.0** Creo l'array delle immagini.
-**0.1** Prepraro il layout l'HTML
-**0.2** Prepraro il layout CSS
-**0.3** Nascondo tutte le immagini tranne la prima tramite con una classe display:none.
-**1.0** Recupero tutti gli elemento dal DOM.
-**2.0** Richiamo l'elemento event click su i bottoni Prev e Next
-**3.0** All'interno dell'event listener genero il ciclo for sulle immagini e tramite un currentNumber [i] aggiungo o rimuovo la classe display:none alle immagini.
-**3.1** Genero un ciclo for sull'array delle immagini.
-**3.2** Tramite un currentNumber [i] aggiungo o rimuovo la classe display:none alle immagini.
-**4.0** Provo tramite delle condizion [if], a rendere infinito il carosello.
-**5.0** Preparo l'HTML e il CSS per le thumbnails.
-**6.0** Assegno ai thumbnails la stessa logica presente alle immagini nell'event listener dei bottoni Pre e Next [ì].
-**7.0 ** Provo a rendere i thumbnails cliccabili.
-**FINE**
-**PS:** Eseguirò l'esercizio prima con layout literar e poi con le DOM API (commentanto le seconde per non mandare in conflitto lo script)
-*/ 
-
 /*---------------------------------------
         FUNZIONI
 ---------------------------------------*/
-// # funzione per impostre il [currentIndex]
+// # FUNZIONE PER IMPOSTRE IL [currentIndex]
 function setCurrentIndex (index){
     // Rimuovo la classe [active] dall'immagine corrispondente al currentIndex  
     images[currentIndex].classList.remove('active')
@@ -63,6 +46,15 @@ function setCurrentIndex (index){
     // Aggiungo la classe [active] dall'immagine corrispondente al currentIndex      
     images[currentIndex].classList.add('active');
     thumbnails[currentIndex].classList.add('active');
+}
+
+// # FUNZIONE FAR ANDARE AVANTI IL CARROSEL DA SOLO OGNI 3 SECONDO
+const autoplay = setInterval (setNextIndex, 3000);
+
+function setNextIndex() {
+  const nextIndex = currentIndex + 1;
+  const index = nextIndex === sources.length ? 0 : nextIndex;
+  setCurrentIndex(index);
 }
 
 /*---------------------------------------
@@ -108,15 +100,16 @@ thumbnails[currentIndex].classList.add('active');
 ---------------------------------------*/
 
 // # btn AVANTI -------------------------
-nextBtn.addEventListener('click', function() {
-  const nextIndex = currentIndex + 1;
-  const index = nextIndex === sources.length ? 0 : nextIndex;
-  setCurrentIndex(index);
+nextBtn.addEventListener('click', function(){
+  clearInterval(autoplay);
+  setNextIndex();
 });
 
 
 //  # btn INDIETRO -------------------------
 prevBtn.addEventListener('click', function(){
+  clearInterval(autoplay);
+
   const prevIndex = currentIndex - 1;
   const index = prevIndex < 0 ? sources.length - 1 : prevIndex; 
   setCurrentIndex(index);
@@ -130,6 +123,7 @@ prevBtn.addEventListener('click', function(){
 
   // ... e metto in ascolto un event listener 
     currentThumbnail.addEventListener('click', function(){
+      clearInterval(autoplay);
       const index = parseInt(currentThumbnail.dataset.index);
       setCurrentIndex(index);
   });
